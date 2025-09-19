@@ -5,36 +5,35 @@ import sys
 def get_input():
     n = int(sys.stdin.readline().strip())
 
-    jump_distances = []
-    jump_distances.extend(map(int, sys.stdin.readline().strip().split()))
+    jump_cnt = list(map(int, sys.stdin.readline().strip().split()))
 
-    return n, jump_distances
+    return n, jump_cnt
 
 
-def bfs(n, jump_distances):
+def bfs(n, jump_cnt):
+
     if n == 1:
-        return 0
+        print(0)
+        return
 
-    visited = [0 for _ in range(len(jump_distances) + 1)]
+    visited = [-1 for _ in range(n)]
+    visited[0] = 0
+
     queue = deque([0])
-    jump_idx = 0
 
     while queue:
-        position = queue.popleft()
+        x = queue.popleft()
 
-        for distance in range(0, jump_distances[jump_idx] + 1):
-            if not visited[position + distance]:
-                if position + distance >= n:
-                    return jump_idx
+        for distance in range(1, jump_cnt[x] + 1):
+            jump_x = x + distance
 
-                queue.append(position + distance)
+            if 0 < jump_x < n and visited[jump_x] == -1:
+                visited[jump_x] = visited[x] + 1
+                queue.append(jump_x)
 
-        jump_idx += 1
-
-    return -1
+    print(visited[-1])
 
 
 if __name__ == '__main__':
-    n, jump_distances = get_input()
-
-    print(bfs(n=n, jump_distances=jump_distances))
+    n, jump_cnt = get_input()
+    bfs(n=n, jump_cnt=jump_cnt)
