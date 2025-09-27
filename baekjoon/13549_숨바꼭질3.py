@@ -21,7 +21,7 @@ def bfs(subin, sister):
 
         if 0 <= x * 2 <= 100000 and not visited[x * 2]:
             visited[x * 2] = visited[x]
-            queue.append(x * 2)
+            queue.appendleft(x * 2)
 
         if 0 <= x - 1 <= 100000 and not visited[x - 1]:
             visited[x - 1] = visited[x] + 1
